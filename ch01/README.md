@@ -13,6 +13,22 @@
 9. [1-9](#1-9)
 10. [1-10](#1-10)
 11. [1-11](#1-11)
+12. [1-12](#1-12)
+13. [1-13](#1-13)
+14. [1-14](#1-14)
+15. [1-15](#1-15)
+16. [1-16](#1-16)
+17. [1-17](#1-17)
+18. [1-18](#1-18)
+19. [1-19](#1-19)
+20. [1-20](#1-20)
+21. [1-21](#1-21)
+22. [1-22](#1-22)
+23. [1-23](#1-23)
+24. [1-24](#1-24)
+25. [1-25](#1-25)
+26. [1-26](#1-26)
+27. [1-27](#1-27)
 
 ## [1-1](#TOC)
 
@@ -210,3 +226,301 @@ Distinguish between the client–server and peer-to-peer models of distributed s
 The client-server model firmly distinguishes the roles of the client and server. Under this model, the client requests services that are provided by the server. The peer-to-peer model doesn't have such strict roles. In fact, all nodes in the system are considered peers and thus may act as either clients or servers—or both. A node may request a service from another peer, or the node may in fact provide such a service to other peers in the system.
 
 For example, let's consider a system of nodes that share cooking recipes. Under the client-server model, all recipes are stored with the server. If a client wishes to access a recipe, it must request the recipe from the specied server. Using the peer-to-peer model, a peer node could ask other peer nodes for the specied recipe. The node (or perhaps nodes) with the requested recipe could provide it to the requesting node. Notice how each peer may act as both a client (it may request recipes) and as a server (it may provide recipes).
+
+## [1-12](#TOC)
+
+### Q
+
+How do clustered systems differ from multiprocessor systems? What is required for two machines belonging to a cluster to cooperate to provide a highly available service?
+
+### A
+
+Clustered systems are built with multiple computer system. Multiprocessor make computer system work several tasks in same time. Two machine works exactly same service to provide high availability. Then one machine takes down other machine can provide service.
+
+#### solution ref)
+
+## [1-13](#TOC)
+
+### Q
+
+Consider a computing cluster consisting of two nodes running a database. Describe two ways in which the cluster software can manage access to the data on the disk. Discuss the benefits and disadvantages of each.
+
+### A
+
+1. Message Passsing
+   - benefits: easy implementation, no need to syncronization
+   - disadvantage: message format overhead
+2. Shared file/memory
+   - benefits: faster than message passing
+   - disadvantage: hard to implement, data consistency problem, need to syncronize
+
+#### solution ref)
+
+## [1-14](#TOC)
+
+### Q
+
+What is the purpose of interrupts? How does an interrupt differ from a trap? Can traps be generated intentionally by a user program? If so, for what purpose?
+
+### A
+
+1. purpose of interrupts
+
+   - the way of communication with cpu and other hardwares. hardware sends interrupt to cpu to alert event or end of their works.
+
+2. difference with interrupt and trap
+
+   - interrupt includes hardware(and others also included, trap too), trap is for error and software generated interrupt because of user application's specific request.
+
+3. Can traps be generated intentionally by a user program? what purpose?
+   - Yes, if user program intentionally makes error, that generate traps.
+
+#### solution ref)
+
+## [1-15](#TOC)
+
+### Q
+
+Explain how the Linux kernel variables `HZ` and `jiffies` can be used to determine the number of seconds the system has been running since it was booted.
+
+### A
+
+Linux kernel variable `HZ` set timer interrupt occurrence frequency. 250 `HZ` means timer generate 250 interrupts per second. Variable `jiffies` show number of timer interrupts that occurred after system booting. Dividing `jiffies` to `HZ` variable can determine number of seconds the system has been running since it was booted.
+
+#### solution ref)
+
+## [1-16](#TOC)
+
+### Q
+
+Direct memory access is used for high-speed I/O devices in order to avoid increasing the CPU’s execution load.
+
+a. How does the CPU interface with the device to coordinate the transfer?
+
+b. How does the CPU know when the memory operations are complete?
+
+c. The CPU is allowed to execute other programs while the DMA controller is transferring data. Does this process interfere with the execution of the user programs? If so, describe what forms of interference are caused.
+
+### A
+
+a. DMA controller set device buffer & pointer & I/O count and send whole data block btw memory and buffer without CPU.
+
+b. DMA controller generate interrupt when data block sending finish.
+
+c. Maybe interfere.. because DMA controller send interrupts when data block sending finished, and user program must be stopped to process interrupt.
+
+#### solution ref)
+
+## [1-17](#TOC)
+
+### Q
+
+Some computer systems do not provide a privileged mode of operation in hardware. Is it possible to construct a secure operating system for these computer systems? Give arguments both that it is and that it is not possible.
+
+### A
+
+1. **Possible**
+   - Hardware support is not required to make OS secure. OS just check that operation is secure and do not execute insecure operation.
+2. **Not possible**
+   - Software support is hard to implement and make overhead. Hardware can easily check security and also fast.
+
+#### solution ref)
+
+## [1-18](#TOC)
+
+### Q
+
+Many SMP systems have different levels of caches; one level is local to each processing core, and another level is shared among all processing cores. Why are caching systems designed this way?
+
+### A
+
+If a multi-core system needs cache, it can be local level to each core or shared level with all cores. But both makes cache inefficient.
+
+1. If cache is only on local level to each core, a core can access its data fast. But if a core should access to the data that processed in other core before, it can't access other core's cache and go to main memory. It makes things slow.
+2. If cache is only one shared level with all cores, each core can access easily to other core's data. But the cores can't access to their own data more faster.
+
+So, each-core cache makes cores to access faster with their own data and shared-core cache makes cores to access faster with other core's data.
+
+#### solution ref)
+
+## [1-19](#TOC)
+
+### Q
+
+Rank the following storage systems from slowest to fastest:
+
+a. Hard-disk drives
+
+b. Registers
+
+c. Optical disk
+
+d. Main memory
+
+e. Nonvolatile memory
+
+f. Magnetic tapes
+
+g. Cache
+
+### A
+
+**slowest**:
+
+1. Magnetic tapes
+2. Optical disk
+3. Hard-disk drives
+4. Nonvolatile memory
+5. Main memory
+6. Cache
+7. Registers
+
+**Fastest**:
+
+#### solution ref)
+
+## [1-20](#TOC)
+
+### Q
+
+Consider an SMP system similar to the one shown in Figure 1.8. Illustrate with an example how data residing in memory could in fact have a different value in each of the local caches.
+
+<img src="./Q20-1.png"/>
+
+### A
+
+Assume that cpu0 and cpu1 takes same data, which value is data0.
+
+1. cpu0 get data0
+2. cache0 get data0
+3. cpu1 get data0
+4. cache1 get data0
+5. cpu0 change data0 to data1
+6. cache0 change data0 to data1
+
+In this situation, cache0 and cache1 has same data but its value is different(cache0 -> data1, cache1 -> data0).
+
+#### solution ref)
+
+## [1-21](#TOC)
+
+### Q
+
+Discuss, with examples, how the problem of maintaining coherence of cached data manifests itself in the following processing environments:
+
+a. Single-processor systems
+
+b. Multiprocessor systems
+
+c. Distributed systems
+
+### A
+
+a. Single-processor systems
+
+- If single processor changes the data in register, just write register value to cache. And when the value must be flushed from cache, write the cache value to main memory.
+
+b. Multiprocessor systems
+
+- Assume multi processor has same task and same data at their cache. Processor 1 and 2 each have their cache so processors cannot trust cache value at all. Processor 1 writes the data to main memory. And main memory retain the cached value list. If cached value changed, send signals to each cache of processor. Then cache remove the value that changed in main memory so next time cpu access to that value, cpu get data in main memory which is correct.
+
+- In other way, Multiprocessor systems can make processor got their own task, not sharing with other processor. Then processors do not share its data, so maintaining cache coherence is simple like single-processor system.
+
+c. Distributed systems
+
+- In distributed systems, both cpu cache and main memory can take same data. Maybe origin data would be stored by one system in distributed systems. If one system changed the data, write to origin system's main memory. Then with some time interval, all systems check the origin system's data and if data is different, update their main memory and cache.
+
+#### solution ref)
+
+## [1-22](#TOC)
+
+### Q
+
+Describe a mechanism for enforcing memory protection in order to prevent a program from modifying the memory associated with other programs.
+
+### A
+
+Each program has its own process while executing. Each process take their own memory space and mapped to absolute address. Process can access memory only by absolute address and absolute address is mapped to process' own memory space, so process can't access out of their own memory space. OS allocate each process' memory space separately, so a program can't modify other program's memory.
+
+#### solution ref)
+
+## [1-23](#TOC)
+
+### Q
+
+Which network configuration — LAN or WAN — would best suit the following environments?
+
+a. A campus student union
+
+b. Several campus locations across a statewide university system
+
+c. A neighborhood
+
+### A
+
+a. LAN
+
+b. WAN
+
+c. LAN
+
+#### solution ref)
+
+## [1-24](#TOC)
+
+### Q
+
+Describe some of the challenges of designing operating systems for mobile devices compared with designing operating systems for traditional PCs.
+
+### A
+
+1. Mobile devices have multiple sensors, so OS must support various sensor device drivers and interrupts.
+2. Mobile devices are smaller than traditional PCs, so it has less processors and memory spaces. Mobile OS must be light and fast enough.
+3. Mobile devices have long hours of use and limited battery capacity, so OS must optimize its power efficiency.
+
+#### solution ref)
+
+## [1-25](#TOC)
+
+### Q
+
+What are some advantages of peer-to-peer systems over client–server systems?
+
+### A
+
+1. p2p systems don't have division of client and server. In client-server systems, server can be bottle-neck so entire system's availability can be decreased by poor server. But p2p systems don't have bottle-neck.
+
+#### solution ref)
+
+## [1-26](#TOC)
+
+### Q
+
+Describe some distributed applications that would be appropriate for a peer-to-peer system.
+
+### A
+
+1. File sharing system. File is large to transfer by network, so server would be hard to receive all upload/download request in client-server systems. p2p systems can balancing the transferring with peer, and nodes can get fast response.
+
+#### solution ref)
+
+## [1-27](#TOC)
+
+### Q
+
+Identify several advantages and several disadvantages of open-source operating systems. Identify the types of people who would find each aspect to be an advantage or a disadvantage.
+
+### A
+
+1. advantages
+
+   - find bugs easily
+   - add features more frequently
+   - systems can grow faster
+
+2. disadvantages
+
+   - systems can be easily analyzed
+   - must check license compliance
+
+#### solution ref)

@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  ubuntu:
+    image: ubuntu:18.04
+
+    tty: true
+
+    volumes:
+      - ./:/exercise/

@@ -246,7 +246,12 @@ What are the two models of interprocess communication? What are the strengths an
 
 1. Message Passing
 
+   - Communication overhead for message formatting
+   - Easy implementation, no access conflict
+
 2. Shared Memory
+   - Fast access, easy communication for process
+   - Hard implementation, need access syncronizing and protection
 
 #### solution ref)
 
@@ -258,6 +263,14 @@ Contrast and compare an application programming interface (API) and an applicati
 
 ### A
 
+1. API
+
+   - Interface for program, especially for specific programming language
+
+2. ABI
+   - Interface for architecture, also for specific OS platform
+   - Include address length, way of passing parameters to sys call, runtime stack structure, sys lib binary format, data type size, etc.
+
 #### solution ref)
 
 ## [2-17](#TOC)
@@ -267,6 +280,8 @@ Contrast and compare an application programming interface (API) and an applicati
 Why is the separation of mechanism and policy desirable?
 
 ### A
+
+Policy can flexible, be changed very often. If policy and mechanism are tightly coupled, if policy change, we must re-implement mechanism too. Assume that policy and mechanism are separated and policy are implemented to some parameters. Mechanism uses parameters to implement policies. That makes policies flexible.
 
 #### solution ref)
 
@@ -280,6 +295,14 @@ It is sometimes difficult to achieve a layered approach if two components of the
 
 #### solution ref)
 
+Virtual memory management VS Process Scheduling
+
+Virtual memory management allows the operating system to allocate and manage virtual memory, which enables each process to have its own address space. Process scheduling determines which process should run next and allocates CPU time to that process.
+
+The virtual memory manager needs to know the state of the process that is currently running, and the process scheduler needs to know the memory usage of each process. In addition, the virtual memory manager needs to allocate memory for the process being scheduled, and the process scheduler needs to consider the memory usage of each process when deciding which process to run next.
+
+To address this issue, modern operating systems use a hybrid approach that combines both virtual memory management and process scheduling into a single component. This approach allows the operating system to balance the competing demands of memory management and process scheduling and ensures that these two critical components are tightly integrated and work together efficiently.
+
 ## [2-19](#TOC)
 
 ### Q
@@ -287,6 +310,16 @@ It is sometimes difficult to achieve a layered approach if two components of the
 What is the main advantage of the microkernel approach to system design? How do user programs and system services interact in a microkernel architecture? What are the disadvantages of using the microkernel approach?
 
 ### A
+
+1. Pros
+
+   - Easy Expansion. All new services are in user area(user application program) so no change for kernel.
+   - Highly portable. Easy to change such a stuffs which are dependent to hardware.
+   - High security and trust. Many services are on user process, so one process' failure is not effective to kernel or other micorkernel components.
+
+2. Cons
+   - Communication overhead. If one service want to communicate to others, they are separated process so message should be copied.
+   - Process switch overhead. Os services are process so process switch overhead occurs.
 
 #### solution ref)
 
@@ -298,6 +331,10 @@ What are the advantages of using loadable kernel modules?
 
 ### A
 
+1. Easy maintaining: kernel's each part has interface so easily set boundary and decoupling.
+2. Flexibility: each module can call other modules to get proper works and easily insert and remove on runtime.
+3. Efficiency: each module don't need to send messages, just call other module.
+
 #### solution ref)
 
 ## [2-21](#TOC)
@@ -307,6 +344,16 @@ What are the advantages of using loadable kernel modules?
 How are iOS and Android similar? How are they different?
 
 ### A
+
+1. Similarity
+
+   - Both for mobile device, so they provide graphic, audio, other hardwares' framework.
+   - Both have hybrid, layered os architecture.
+
+2. Difference
+   - IOS and Android provide different application programming framework.
+   - Android has its' own Hardware Abstraction Layer(HAL) because android should be portable to many device.
+   - IOS use Mach kernel, Android use Linux kernel.
 
 #### solution ref)
 
@@ -318,6 +365,8 @@ Explain why Java programs running on Android systems do not use the standard Jav
 
 ### A
 
+Android is for mobile device and mobile device has limited hardware resources, so Java programs should be efficient. Android RunTime(ART) is optimized on memory and cpu usage so Java programs can be executed more efficiently.
+
 #### solution ref)
 
 ## [2-23](#TOC)
@@ -327,6 +376,11 @@ Explain why Java programs running on Android systems do not use the standard Jav
 The experimental Synthesis operating system has an assembler incorporated in the kernel. To optimize system-call performance, the kernel assembles routines within kernel space to minimize the path that the system call must take through the kernel. This approach is the antithesis of the layered approach, in which the path through the kernel is extended to make building the operating system easier. Discuss the pros and cons of the Synthesis approach to kernel design and system-performance optimization.
 
 ### A
+
+1. Pros: system-performance view
+   - Sys call can pass less layer or no layer, so system-performance would be high.
+2. Cons: kernel design view
+   - Sys call path are optimized and integrated to kernel, so it would be hard to maintain and debug it.
 
 #### solution ref)
 
@@ -370,7 +424,17 @@ Be sure to remove `/proc/jiffies` when the module is removed.
 
 ### A
 
+See also `jiffies.c`.
+
+1. Build kernal module with `make all`
+2. Insert module with `sudo insmod MODULE_FILE_NAME.ko`
+3. See result with `cat /proc/jiffies`
+
+<img src="./images/PL_1.png"/>
+
 ## [Programming-2](TOC)
+
+### Q
 
 Design a kernel module that creates a proc file named `/proc/seconds` that reports the number of elapsed seconds since the kernel module was loaded. This will involve using the value of `jiffies` as well as the `HZ` rate. When a user enters the command
 
@@ -379,3 +443,13 @@ cat /proc/seconds
 ```
 
 your kernel module will report the number of seconds that have elapsed since the kernel module was first loaded. Be sure to remove `/proc/seconds` when the module is removed.
+
+### A
+
+See also `seconds.c`.
+
+1. Build kernal module with `make all`
+2. Insert module with `sudo insmod MODULE_FILE_NAME.ko`
+3. See result with `cat /proc/seconds`
+
+<img src="./images/PL_2.png"/>

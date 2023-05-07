@@ -177,13 +177,28 @@ Describe three general methods for passing parameters to the operating system.
 
 ### A
 
-1. Kernel Variables
-
-2. Booting operation variables
-
-3. Changing config parameters when compiling kernel
-
 #### solution ref)
+
+1. Register method
+
+- passing parameters in registers
+- accessed by the operating system to perform the required operation
+- efficient because it avoids the need to push the arguments onto the stack
+- limitations due to the limited number of registers available
+
+2. Stack method
+
+- passing parameters on the program stack
+- arguments for a system call are pushed onto the stack&popped off the stack to perform the required operation
+- more flexible than the register method because it can handle an arbitrary number of arguments
+- requires more memory and is slower due to the overhead of push&pop data from the stack
+
+3. Block/Structure method
+
+- passing parameters as a block or a structure
+- arguments for a system call are passed as a single unit, such as a block of memory or a data structure, which contains all the required parameters
+- efficient because it avoids the overhead of pushing and popping data from the stack, and it is flexible because it can handle an arbitrary number of arguments
+- requires more setup time to create the data structure and may result in additional memory overhead
 
 ## [2-11](#TOC)
 
@@ -407,6 +422,10 @@ sudo dtruss ./FileCopy
 Since Windows systems do not provide such a tool, you will have to trace through the Windows version of this program using a debugger.
 
 ### A
+
+See also `FileCopy.c`.
+
+<img src="./images/2-24.png"/>
 
 #### solution ref)
 
